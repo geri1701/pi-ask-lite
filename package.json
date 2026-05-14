@@ -1,6 +1,6 @@
 {
   "name": "pi-ask-lite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tiny, pleasant Markdown ask tool for Pi.",
   "type": "module",
   "license": "MIT",
@@ -22,7 +22,8 @@
   "pi": {
     "extensions": [
       "./src/index.ts"
-    ]
+    ],
+    "image": "https://raw.githubusercontent.com/geri1701/pi-ask-lite/main/media/pi-ask-lite-preview.png"
   },
   "files": [
     "src",
