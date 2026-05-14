@@ -1,5 +1,7 @@
 # pi-ask-lite
 
+![pi-ask-lite preview](media/pi-ask-lite-preview.png)
+
 A tiny, pleasant Markdown ask tool for Pi.
 
 `pi-ask-lite` registers one tool, `ask`. The agent passes one complete Markdown prompt; the user selects, edits, or writes a free-text answer; the tool returns the final answer as Markdown/text.
