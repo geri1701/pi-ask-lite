@@ -4,7 +4,12 @@
 
 A tiny, pleasant Markdown ask tool for Pi.
 
-`pi-ask-lite` registers one tool, `ask`. The agent passes one complete Markdown prompt; the user selects, edits, or writes a free-text answer; the tool returns the final answer as Markdown/text.
+`pi-ask-lite` is for both sides of an agent question:
+
+- **Users** get a small terminal prompt when Pi needs a decision.
+- **Agents** get a deliberately slim tool surface: one tool, one Markdown string, answer out.
+
+No option arrays. No mode flags. No UI schema to construct. The Markdown prompt is the interface.
 
 ## Install
 
@@ -12,21 +17,40 @@ A tiny, pleasant Markdown ask tool for Pi.
 pi install npm:pi-ask-lite
 ```
 
-## Tool
+## For users
 
-Tool name: `ask`
+Sometimes Pi needs input from you: choose one option, select several items, confirm a plan, or write a short answer.
 
-Parameter:
+`pi-ask-lite` turns that moment into a focused terminal UI instead of a long chat question. You can select options, edit the proposed answer, or write your own response.
+
+Keyboard controls:
+
+- `Space` selects or toggles the focused option.
+- `Shift+Space` selects or toggles and marks the answer for editing.
+- `Enter` sends a valid selection, or opens the selected answer as an editable draft when edit mode is active.
+- `Esc` / `Ctrl+C` opens an empty free-text editor.
+
+Direct selections return the selected Markdown structure. Free-text answers and edited drafts are returned unchanged.
+
+## For agents
+
+`pi-ask-lite` registers one tool: `ask`.
+
+Input:
 
 ```ts
 {
-  markdown: string
+  markdown: string;
 }
 ```
 
+Pass one complete Markdown prompt. The user answers in the UI. The tool returns the final answer as Markdown/text.
+
+Use `ask` when you need a real user decision and want the interaction to stay simple. Write the question in Markdown; use the lightweight conventions below for choices.
+
 ## Example
 
-Ask with this Markdown:
+Prompt:
 
 ```md
 Choose what to do next:
@@ -39,67 +63,73 @@ Choose what to do next:
 - Make a small polish pass
 ```
 
-The user sees a TUI-native choice prompt and the agent receives the selected answer as Markdown/text.
+Returned answer:
 
-## Markdown interaction syntax
+```md
+- Run one more smoke test
+```
+
+## Markdown conventions
 
 Use normal Markdown for explanation and a few lightweight conventions for choices.
 
-Non-interactive context bullets use `*`:
+### Context
+
+Use `*` for non-interactive context bullets:
 
 ```md
 Given:
 
-* non-interactive context bullet
-* another context fact
+* The implementation is complete.
+* Checks passed locally.
 ```
 
-Single choice uses `- option`:
+### Single choice
+
+Use plain list items:
 
 ```md
-- Option A
-- Option B
+- Release now
+- Run one more smoke test
+- Make a small polish pass
 ```
 
-Multi choice uses `- [ ] option`:
+### Multi choice
+
+Use unchecked task items:
 
 ```md
-- [ ] Option A
-- [ ] Option B
+- [ ] Tests
+- [ ] Docs
+- [ ] Release notes
 ```
 
-Independent required groups can be separated with headings:
+Do not preselect options with `- [x]`. Express recommendations in normal Markdown text instead.
+
+### Independent groups
+
+Use headings to split independent required groups:
 
 ```md
-## Color
-- Red
-- Blue
+## Target
+- Production
+- Staging
 
-## Size
-- Small
-- Large
+## Action
+- Deploy
+- Dry run
 ```
 
-Dependent subchoices are expressed by indentation:
+### Dependent subchoices
+
+Indent child options below their parent:
 
 ```md
-- [ ] Parent
-    - Child A
-    - Child B
+- [ ] Publish
+    - npm only
+    - npm and GitHub release
+- [ ] Do not publish yet
 ```
-
-Do not preselect options with `- [x]` in prompts. Express recommendations in normal Markdown text or emphasis instead.
-
-## User interaction
-
-The extension uses a focused TUI overlay during the tool call:
-
-- `Space` selects/toggles the focused option.
-- `Shift+Space` selects/toggles and marks the answer for draft editing.
-- `Enter` sends a valid selection, or opens the selected Markdown as an editable draft when draft mode is active.
-- `Esc` / `Ctrl+C` opens an empty free-text editor.
-
-Direct selections return only the selected Markdown structure. Free-text and edited drafts are returned unchanged.
 
 ## Development
 
@@ -116,3 +146,7 @@ npm run check
 npm test
 npm run pack:dry
 ```
+
+## License
+
+MIT
