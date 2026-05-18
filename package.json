@@ -1,6 +1,6 @@
 {
   "name": "pi-ask-lite",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A tiny, pleasant Markdown ask tool for Pi.",
   "type": "module",
   "license": "MIT",

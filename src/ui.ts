@@ -147,7 +147,7 @@ export async function runAskUi(ctx: ExtensionContext, document: AskDocument): Pr
 
       add(theme.fg("accent", "─".repeat(width)));
       add(theme.fg("accent", " Ask User"));
-      add(theme.fg("dim", editMode ? " Freitext/Draft: Enter sendet • Esc zurück zur Auswahl" : " ↑↓ bewegen • Space wählen • Shift+Space Draft • Enter senden • Esc Freitext"));
+      add(theme.fg("dim", editMode ? " Free text/draft: Enter sends • Esc returns to selection" : " ↑↓ move • Space select • Shift+Space draft • Enter send • Esc free text"));
       lines.push("");
 
       const bodyRows = renderDocumentRows(document, state, focusedId, {
@@ -159,7 +159,7 @@ export async function runAskUi(ctx: ExtensionContext, document: AskDocument): Pr
       });
 
       if (editMode) {
-        bodyRows.push({ text: "" }, { text: theme.fg("muted", "Antwort:") });
+        bodyRows.push({ text: "" }, { text: theme.fg("muted", "Answer:") });
         for (const editorLine of editor.render(Math.max(10, width - 2))) {
           bodyRows.push({ text: ` ${editorLine}` });
         }
@@ -177,10 +177,10 @@ export async function runAskUi(ctx: ExtensionContext, document: AskDocument): Pr
       }
 
       const visibleRows = bodyRows.slice(scrollOffset, scrollOffset + maxBodyLines);
-      if (scrollOffset > 0) add(theme.fg("dim", `… ${scrollOffset} Zeilen darüber`));
+      if (scrollOffset > 0) add(theme.fg("dim", `… ${scrollOffset} lines above`));
       for (const row of visibleRows) add(row.text);
       if (scrollOffset + maxBodyLines < bodyRows.length) {
-        add(theme.fg("dim", `… ${bodyRows.length - scrollOffset - maxBodyLines} Zeilen darunter`));
+        add(theme.fg("dim", `… ${bodyRows.length - scrollOffset - maxBodyLines} lines below`));
       }
 
       lines.push("");
